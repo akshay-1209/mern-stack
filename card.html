@@ -7,6 +7,22 @@
     <title>Document</title>
 </head>
 <body>
-    
+    <h1 id="user-name">Akshay Tonde</h1>
+    <button onclick="toggle()">Toggle</button>
+    <script>
+
+        let user_title = document.getElementById("user-name");
+        let b = true;
+        let toggle = function(){
+            if(b){
+                user_title.innerHTML = "Coding";
+                b = false;
+            }
+            else{
+                user_title.innerHTML = "Akshay";
+                b = true;
+            }
+        }
+    </script>
 </body>
 </html>
