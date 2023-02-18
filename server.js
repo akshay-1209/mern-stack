@@ -4,6 +4,7 @@ const userLib = require('./backend/lib/userLib');
 const express = require('express');
 const app = express();
 const port = process.env.PORT || 5010;
+app.use(express.static("public"));
 
 app.get("/", function(req, res){
 	res.sendFile(__dirname+"/index.html");
@@ -15,6 +16,10 @@ app.get("/resume", function(req, res){
 
 app.get("/card", function(req, res){
 	res.sendFile(__dirname+"/card.html");
+});
+
+app.get("/weather", function(req, res){
+	res.sendFile(__dirname+"/weather.html");
 });
 
 mongoose.set('strictQuery', true);
