@@ -1,7 +1,7 @@
-const { model } = require("mongoose");
-const userModel = require("../models/userModels");
+import mongoose from "mongoose";
+import userModel from "../models/userModels.js";
 
-module.exports.getAllUsers = async function(callback){
+export const getAllUsers = async function(callback){
     try{
         var users = await userModel.find({});
         callback(null,users)
@@ -11,7 +11,7 @@ module.exports.getAllUsers = async function(callback){
     }
 }
 
-module.exports.createFirstUser = async function(callback){
+export const createFirstUser = async function(callback){
     try{
         var user = {
             userName : "akshay",
@@ -26,7 +26,7 @@ module.exports.createFirstUser = async function(callback){
     }
 }
 
-module.exports.createUser = async function(user, callback){
+export const createUser = async function(user, callback){
     try{
         var new_user = new userModel(user);
         var result = await new_user.save();
@@ -37,7 +37,7 @@ module.exports.createUser = async function(user, callback){
     }
 }
 
-module.exports.updateUser = async function(USERNAME,data,callback){
+export const updateUser = async function(USERNAME,data,callback){
     try{
         var query = {
             userName : USERNAME
@@ -50,7 +50,7 @@ module.exports.updateUser = async function(USERNAME,data,callback){
     }
 }
 
-module.exports.deleteUser = async function(USERNAME, callback){
+export const deleteUser = async function(USERNAME, callback){
     try{
         var query = {
             userName : USERNAME
@@ -63,7 +63,7 @@ module.exports.deleteUser = async function(USERNAME, callback){
     }
 }
 
-module.exports.getUserByFilter = async function(filter, callback){
+export const getUserByFilter = async function(filter, callback){
     try{
         var user = await userModel.find(filter);
         callback(null,result);

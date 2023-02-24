@@ -1,9 +1,7 @@
-const { query } = require("express");
-const { model, mongo, default: mongoose } = require("mongoose");
-const { updateOne } = require("../models/toDoItem");
-const toDoModel = require("../models/toDoItem");
+import mongoose from "mongoose";
+import toDoModel from "../models/toDoItem.js";
 
-module.exports.createTodo = async function(item, callback){
+export async function createTodo(item, callback){
     try{
         var new_todo = new toDoModel(item);
         var result = await new_todo.save();
@@ -15,9 +13,9 @@ module.exports.createTodo = async function(item, callback){
     }
 }
 
-module.exports.getAllTodos = async function(callback){
+export async function getAllTodos(callback){
     try{
-        var items = await toDoModel.find({isCompleted : false, isDeleted : false});
+        var items = await toDoModel.find({isDeleted : false, isCompleted : false});
         callback(null,items);
     }
     catch(err){
@@ -26,7 +24,29 @@ module.exports.getAllTodos = async function(callback){
     }
 }
 
-module.exports.getTodoByQuery = async function(query, callback){
+export async function getAllCompleted(callback){
+    try{
+        var items = await toDoModel.find({isCompleted : true, isDeleted : false});
+        callback(null,items);
+    }
+    catch(err){
+        console.error(err);
+        callback(err,null);
+    }
+}
+
+export async function getAllDeleted(callback){
+    try{
+        var items = await toDoModel.find({isDeleted : true});
+        callback(null,items);
+    }
+    catch(err){
+        console.error(err);
+        callback(err,null);
+    }
+}
+
+export async function getTodoByQuery(query, callback){
     try{
         var items = await toDoModel.find(query);
         callback(null,items);
@@ -37,7 +57,7 @@ module.exports.getTodoByQuery = async function(query, callback){
     }
 }
 
-module.exports.getSingleTodoById = async function(id, callback){
+export async function getSingleTodoById(id, callback){
     try{
         var item = await toDoModel.find({_id : id});
         callback(null,item);
@@ -48,7 +68,7 @@ module.exports.getSingleTodoById = async function(id, callback){
     }
 }
 
-module.exports.updateTodoById = async function(id, data, callback){
+export async function updateTodoById(id, data, callback){
     try{
         var result = await toDoModel.updateOne({_id : id},data);
         callback(null,result);
@@ -59,7 +79,7 @@ module.exports.updateTodoById = async function(id, data, callback){
     }
 }
 
-module.exports.deleteTodoById = async function(id, callback){
+export async function deleteTodoById(id, callback){
     try{
         var data = {isDeleted : true};
         var result = await toDoModel.updateOne({_id : id},data);
@@ -71,7 +91,7 @@ module.exports.deleteTodoById = async function(id, callback){
     }
 }
 
-module.exports.hardDelete = async function(callback){
+export async function hardDelete(callback){
     try{
         var result = await toDoModel.deleteMany({});
         callback(null, result);
