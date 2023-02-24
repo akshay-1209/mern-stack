@@ -9,7 +9,7 @@ inputBox.addEventListener("keydown",function(event){
 
 async function createTodo(){
     let text = inputBox.value;
-    console.log(text + 'j');
+    inputBox.value = "";
     await fetch("/api/todos",{method : "POST", headers : {"Content-Type" : "application/json"}, body : JSON.stringify({title : text})});
     await getAllTodos();
     await getAllCompletedTodos();
@@ -31,11 +31,19 @@ async function setChecked(id)
     await getAllDeletedTodos();
 }
 
+async function hardDelete(){
+    await fetch("/api/hardDelete",{method : "DELETE", headers : {"Content-Type" : "application/json"}});
+    await getAllTodos();
+    await getAllCompletedTodos();
+    await getAllDeletedTodos();
+}
+
+
 async function getAllDeletedTodos()
 {  
     const todoList = document.getElementById("deletedTodosList");
     todoList.innerHTML = null;
-    fetch("/api/isdeleted").then(function(res){
+    fetch("/api/isDeleted").then(function(res){
         return res.json();
     }).then(function(file){
         let count = 0;
@@ -68,7 +76,7 @@ async function getAllCompletedTodos()
 {  
     const todoList = document.getElementById("completedTodosList");
     todoList.innerHTML = null;
-    fetch("/api/iscompleted").then(function(res){
+    fetch("/api/isCompleted").then(function(res){
         return res.json();
     }).then(function(file){
         let count = 0;

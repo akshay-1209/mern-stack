@@ -40,18 +40,7 @@ app.get("/api/todos",function(req,res){
 	});
 });
 
-app.get("/api/getnull",function(req,res){
-	todoLib.getAllNull(function(err,todos){
-		if(err){
-			res.json({status : "error", message : err, data : null});
-		}
-		else{
-			res.json({status : "success", data : todos});
-		}	
-	});
-});
-
-app.get("/api/iscompleted",function(req,res){
+app.get("/api/isCompleted",function(req,res){
 	todoLib.getAllCompleted(function(err,todos){
 		if(err){
 			res.json({status : "error", message : err, data : null});
@@ -62,7 +51,7 @@ app.get("/api/iscompleted",function(req,res){
 	});
 });
 
-app.get("/api/isdeleted",function(req,res){
+app.get("/api/isDeleted",function(req,res){
 	todoLib.getAllDeleted(function(err,todos){
 		if(err){
 			res.json({status : "error", message : err, data : null});
@@ -101,6 +90,17 @@ app.put("/api/todos/:todoid",function(req,res){
 app.delete(("/api/todos/:todoid"),function(req,res){
 	const todoid = req.params.todoid;
 	todoLib.deleteTodoById(todoid, function(err,dbtodo){
+		if(err){
+			res.json({status: "error", message: err, data: null});
+		}
+		else{
+			res.json({status: "success", data: dbtodo});
+		}
+	});
+});
+
+app.delete(("/api/hardDelete"),function(req,res){
+	todoLib.hardDelete(function(err,dbtodo){
 		if(err){
 			res.json({status: "error", message: err, data: null});
 		}
